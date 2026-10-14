@@ -1,0 +1,44 @@
+# Project Qulity Report
+
+This is a report of the data quality in the project for the course 'Open Science in Practice: Collaborative Research in Git' held in October 2026 at Karolinska Institutet.
+
+## 1. Load the data 
+Some descriptive information of our database. 
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pathlib import Path
+
+participants = pd.read_csv("../data/participants.csv")
+
+participants.describe()
+```
+
+## 2. Missing Values
+Check if there are missing values. 
+
+## 3. Duplicates 
+
+## 3. Head Motion 
+
+
+```{python}
+#| echo: false
+import seaborn as sns
+
+sns.boxplot(data=participants, x="mean_fd")
+plt.xlabel("Mean framewise displacement (mm)")
+plt.title("Head motion across participants")
+plt.tight_layout()
+plt.show()
+```
+
+## Clinical scales 
+
+
+## Head Motion
+
