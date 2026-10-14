@@ -20,6 +20,14 @@ Python (3.12.15)
 
 Quarto
 
+#### To run the code
+
+If it is the first time you are running the code, you can run the code from the console using:
+
+- **if you run it for the first time**: import code.py
+
+- **from the second time:** exec(open("path to your code").read())
+
 ### Packages
 
 1.  Numpy: used for data structures, matrices and computation.
