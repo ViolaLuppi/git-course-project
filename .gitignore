@@ -1,3 +1,4 @@
+.DS_Store
 # Do not commit figures
 *.png 
 
