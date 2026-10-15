@@ -6,9 +6,9 @@ This repository contains the project produced for the course 'Open Science in Pr
 
 The files in this repository were created to:
 
-- Generate a dataset of subjects affected by Impostor Syndrome. The dataset contains: a resting state functional connectivity (rs-FC) matrix for each subject, few demographics (age, sex), Impostor Feeling Syndrom Scores (IFSS) and Anxiety Scores (AS). The two clinical scales do not exist in any real clinical setting and should not be considered in any real clinical application.
+- Generate a dataset of subjects affected by Impostor Syndrome.
 
-- Perform easy statistical analysis on the generated datasets.
+- Perform statistical analysis on the generated datasets.
 
 - Document the process in the detail through reports.
 
@@ -28,11 +28,15 @@ If it is the first time you are running the code, you can run the code from the 
 
 - **from the second time:** exec(open("path to your code").read())
 
-### Packages
+### Python packages
 
-1.  Numpy: used for data structures, matrices and computation.
-2.  Pandas: used to create data frames.
-3.  Path: used to deal with folder paths.
+`pandas` - Used for dataframes.
+
+`numpy` - Used for working with arrays.
+
+`matplotlib` - Used for creating plots.
+
+`seaborn` - Used for visualization.
 
 ## Workflow
 
@@ -42,9 +46,14 @@ If it is the first time you are running the code, you can run the code from the 
 4.  Perform statistical analysis
 5.  Generate figures
 
-## Scripts 
+## Scripts
 
 Scripts included in this project are:
 
-1.  generate_data.py: used to generate the data
-2.  data_quality_report.qmd: used to inspect and report data quality
+### `generate_data.py`
+
+The script is used to generate a database of 120 subject with Impostor Syndrome. The dataset contains: a resting state functional connectivity (rs-FC) matrix for each subject, few demographics (age, sex), Impostor Feeling Syndrom Scores (IFSS) and Anxiety Scores (AS). The two clinical scales do not exist in any real clinical setting and should not be considered in any real clinical application.
+
+### `data_quality_report.qmd`
+
+This script is used to generate a data_quality_report.html. It contains a descriptive table of the participants and exploratory analysis to identify missing or corrupted data. It identifies NaN values in two variables (Age and mean_fd) and mistakes in the IFSS reported for three subjects.
