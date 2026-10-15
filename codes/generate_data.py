@@ -169,9 +169,13 @@ for score in ifss:
 
 fc_matrices = np.array(fc_matrices)
 
+# 6. Introduce some random noise for data cleaning practice (optional)
 
+#NaN in age and head motion
+participants.loc[5, "age"] = np.nan
+participants.loc[40, "mean_fd"] = np.nan
 
-# 6. Save the synthetic database
+# 7. Save the synthetic database
 
 participants.to_csv(
     OUTPUT_DIR / "participants.csv",
