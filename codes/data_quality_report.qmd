@@ -1,34 +1,86 @@
+---
+title: "Impostor Syndrome study — Quality Report"
+date: today
+format: 
+    html:
+        output-file: data_quality_report.html
+        output-dir: ../output
+echo: false 
+---
+
+```{python}
+#| output: false 
+
+#import all the necessary packages 
+
+from IPython.display import display
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+# load your data 
+
+# -- participants csv --
+participants = pd.read_csv("../data/participants.csv")
+#participants = pd.read_csv("data/participants.csv")
+
+# -- connectivity matrix --
+fc_file = Path("../data/connectivity_matrices.npz")
+fc_data = np.load(fc_file)
+
+print(fc_data.files) #know your key to store the data 
+
+fc_matrices = fc_data["matrices"]
+
+roi_names = [
+    "mPFC", "PCC", "L_Angular", "R_Angular",
+    "L_Insula", "dACC", "L_dlPFC", "R_dlPFC"
+]
+
+```
+
 # Project Qulity Report
 
 This is a report of the data quality in the project for the course 'Open Science in Practice: Collaborative Research in Git' held in October 2026 at Karolinska Institutet.
 
-## 1. Load the data 
-Some descriptive information of our database. 
+## Data description
+
+Some descriptive information of our database.
 
 ```{python}
-#| echo: false
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from pathlib import Path
-
-participants = pd.read_csv("../data/participants.csv")
 
 participants.describe()
+
 ```
 
-## 2. Missing Values
-Check if there are missing values. 
+We detect one important issue: the **IFSS scale** has 0 as minimum value, but we know that by study design this variable must be between 20 and 100. In addition, we want to check the **head motion variable** distribution to identify any low-quality scan.
 
-## 3. Duplicates 
+### IFSS scale
 
-## 3. Head Motion 
+```{python}
 
+invalid_ifss = ~participants["ifss_score"].between(20, 100)
+
+print("Invalid IFSS scores:", invalid_ifss.sum())
+
+participants.loc[
+    invalid_ifss,
+    ["subject_id", "ifss_score"]
+]
+
+```
+
+We have identified 3 subjects with a IFSS equal to 0. We track them so we discard them from the dataset when cleaning the data.
+
+### Head motion variable
+
+First, we look at the distribution of the head motion variable with a boxplot.
 
 ```{python}
 #| echo: false
-import seaborn as sns
 
 sns.boxplot(data=participants, x="mean_fd")
 plt.xlabel("Mean framewise displacement (mm)")
@@ -37,8 +89,67 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Clinical scales 
+Then we experiment different censoring thresholds for head motion.
 
+```{python}
+for threshold in [0.20, 0.30, 0.50]:
+    n_flagged = (participants["mean_fd"] > threshold).sum()
+    print(
+        f"Threshold {threshold:.2f} mm: "
+        f"{n_flagged} participants "
+        f"({n_flagged / len(participants) * 100:.1f}%)"
+    )
+```
 
-## Head Motion
+## Missing Values
 
+Finally we check if there are any missing values in the participants table.
+
+```{python}
+missing_count = participants.isna().sum().sum()
+
+if missing_count == 0:
+    print("No missing values detected.")
+else:
+    print(f"Missing values detected: {missing_count}")
+
+    display(participants.loc[
+    participants.isna().any(axis=1),
+    ["subject_id", "age", "ifss_score", "anxiety_score", "mean_fd"]
+    ])
+```
+
+## FC matrices
+
+In this section we check any potential numerical problems in the FC matrices.
+
+```{python}
+
+#because connectivity matrices are symmetric, we get each connection once by considering the upper triangle in the matrix
+
+upper_triangle = np.triu_indices(len(roi_names), k=1) 
+
+all_fc_values = fc_matrices[:, upper_triangle[0], upper_triangle[1]]
+all_fc_values = all_fc_values.ravel()
+
+print("Matrix shape:", fc_matrices.shape)
+print("Contains NaNs:", np.isnan(fc_matrices).any())
+print("Contains infinite values:", np.isinf(fc_matrices).any())
+print("Minimum FC:", np.nanmin(fc_matrices))
+print("Maximum FC:", np.nanmax(fc_matrices))
+
+```
+
+## Summary
+
+Main issues identified with data quality check in the **participants.csv** that should be handled with data cleaning are:
+
+1.  IFSS values equal to 0.
+2.  Head motion values that are over the 0.5 mm threshold.
+3.  NaN detected in Age and mean_fd variable.
+
+On the other hand, for the **FC matrix**:
+
+1.  Matrix shape corresponds to the expected matrix shape (120 subjects and 8 ROIs considered).
+2.  No NaN or infinite values are detected.
+3.  Values are between -1 and +1.
