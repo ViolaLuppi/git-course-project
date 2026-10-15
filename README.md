@@ -33,3 +33,18 @@ If it is the first time you are running the code, you can run the code from the 
 1.  Numpy: used for data structures, matrices and computation.
 2.  Pandas: used to create data frames.
 3.  Path: used to deal with folder paths.
+
+## Workflow
+
+1.  Generate the data
+2.  Check the data quality
+3.  Clean the data
+4.  Perform statistical analysis
+5.  Generate figures
+
+## Scripts 
+
+Scripts included in this project are:
+
+1.  generate_data.py: used to generate the data
+2.  data_quality_report.qmd: used to inspect and report data quality
