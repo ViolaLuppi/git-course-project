@@ -140,6 +140,55 @@ print("Maximum FC:", np.nanmax(fc_matrices))
 
 ```
 
+To isolate the significant connections, we explore how many connections remain when we consider different connectivty thresholds.
+
+``` {python}
+
+# Define some thresholds to see 
+thresholds = np.arange(0.05, 0.45, 0.05)
+
+mean_connections = []
+mean_density = []
+
+#because connectivity matrices are symmetric, 
+# we get each connection once by considering the upper triangle in the matrix
+upper_idx = np.triu_indices(len(roi_names), k=1)
+
+n_possible = len(roi_names) * (len(roi_names) - 1) // 2
+
+for threshold in thresholds:
+    # Keep connections with |r| greater than the threshold
+    retained = np.abs(
+        fc_matrices[:, upper_idx[0], upper_idx[1]]
+    ) > threshold
+
+    mean_connections.append(retained.sum(axis=1).mean())
+    mean_density.append(retained.mean())
+
+# plot the remaining connection on average depending on the threshold 
+plt.figure(figsize=(8, 5))
+plt.plot(thresholds, mean_density, marker="o")
+plt.xlabel("Absolute FC threshold")
+plt.ylabel("Mean network density")
+plt.title("Effect of Threshold on FC Network Density")
+plt.ylim(0, 1)
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# print the value 
+for threshold, n_conn, density in zip(
+    thresholds, mean_connections, mean_density
+):
+    print(
+        f"Threshold = {threshold:.2f} | "
+        f"Mean connections = {n_conn:.1f}/{n_possible} | "
+        f"Density = {density:.1%}"
+    )
+```
+
+For example, if we decide to use the 0.05 threshold, we only keep the connections that are stronger than 0.05. This means that, on aveage, we will retain around 70% of the unique connections in the network. 
+
 ## Summary
 
 Main issues identified with data quality check in the **participants.csv** that should be handled with data cleaning are:
@@ -153,3 +202,4 @@ On the other hand, for the **FC matrix**:
 1.  Matrix shape corresponds to the expected matrix shape (120 subjects and 8 ROIs considered).
 2.  No NaN or infinite values are detected.
 3.  Values are between -1 and +1.
+4. The best connectivity threshold is 0.05. 
