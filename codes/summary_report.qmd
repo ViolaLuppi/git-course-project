@@ -1,0 +1,123 @@
+---
+title: "Impostor Syndrome study — Summary Report"
+date: today
+format: 
+    html:
+        output-file: summary_report.html
+        output-dir: ../output
+echo: false 
+---
+
+```{python}
+#| output: false 
+
+#import all the necessary packages 
+
+from IPython.display import display
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+# load your data 
+
+# -- participants csv --
+participants_clean = pd.read_csv("../data/participants_clean.csv")
+
+# -- connectivity matrix --
+fc_file_clean = Path("../data/connectivity_matrices_clean.npz")
+fc_data_clean = np.load(fc_file_clean)
+
+print(fc_data_clean.files) #know your key to store the data 
+
+fc_matrices_clean = fc_data_clean["matrices"]
+
+roi_names = [
+    "mPFC", "PCC", "L_Angular", "R_Angular",
+    "L_Insula", "dACC", "L_dlPFC", "R_dlPFC"
+]
+
+```
+
+# Project Summary Report
+
+This document is the summary report for the project *"Impostor Syndrome study"* produced during the course "Open Science in Practice: Collaborative Research in Git" held in October 2026 at Karolinska Institutet.
+
+# Objective
+
+The main objective of this report is to describe the characteristics of the FC matrices, demographic information, clinical and acquisition measures of the dataset containing subjects with Impostor Syndrome after data cleaning.
+
+## 1. Data description
+
+This is a descriptive table for `participant_clean.csv`.
+
+```{python}
+
+participants_clean.describe()
+
+```
+
+The table highlights that:
+
+1.  There are no more zeros in IFSS.
+
+2.  The maximum value of `mean_fd` is now less than 0.5 mm.
+
+```{python}
+
+participants_clean_NaN = participants_clean.loc[~participants_clean.isna().any(axis=1)]
+
+print(f"Participants with NaN in their variables: {len(participants_clean_NaN)}")
+
+```
+
+Finally, all subjects with a NaN in one of their variables have been removed.
+
+# 2. Dataset demographics
+
+The sex distribution of the participants included in the cleaned dataset is reported below, including the number and percentage of female and male participants.
+
+```{python}
+n_F = len(participants_clean.loc[participants_clean['sex'] == "F"])
+n_M = len(participants_clean.loc[participants_clean['sex'] == "M"])
+print(
+    f"Number of females = {n_F} and number of males: {n_M}\n " 
+    f"Female ratio = {(n_F/len(participants_clean))* 100:.1f}%\n "
+    f"Male ratio = {(n_M/len(participants_clean))* 100:.1f}%"
+    )
+```
+
+The age distribution by sex is also reported in this section.
+
+```{python}
+
+sns.boxplot(data=participants_clean, x="sex", y="age", hue='sex', palette='Set2')
+
+plt.title("Age distribution")
+plt.xlabel("Sex")
+plt.ylabel("Age")
+plt.show()
+
+```
+
+## 3. FC distribution
+Below the distribution of functional connectivity across subjects is reported. 
+```{python}
+
+# Extract unique connections, excluding the diagonal
+upper_idx = np.triu_indices(len(roi_names), k=1)
+fc_values = fc_matrices_clean[:, upper_idx[0], upper_idx[1]].ravel()
+
+plt.figure(figsize=(8, 5))
+sns.histplot(fc_values, bins=30)
+plt.axvline(0, color="black", linestyle="--")
+plt.xlabel("Functional connectivity (Pearson's r)")
+plt.ylabel("Count")
+plt.title("Distribution of Functional Connectivity")
+plt.tight_layout()
+plt.show()
+```
+
+
