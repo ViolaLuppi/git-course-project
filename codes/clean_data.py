@@ -1,25 +1,25 @@
 
-# The clean_data.py is used to clean the data from the 
-# Impostor Syndrome dataset.
+# The clean_data.py is used to clean the data of the 
+# Impostor Syndrome study dataset.
 
 #This code is made of the following sections:
     # 1. Settings  
-    # 2. Remove subjects with NaN values 
+    # 2. Remove subjects with NaN  
     # 3. Keep the subjects with IFFS =/= 0 
     # 4. Remove subjects with mean_fd > 0.5 mm
     # 5. Threshold FC matrix
     # 6. Save the new dataset
 
+#--------------
 # 1. Settings 
+#--------------
+
 #import all the necessary packages 
 
-from IPython.display import display
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 
 # load your data 
 
@@ -45,7 +45,7 @@ roi_names = [
 ]
 
 # ------------------------------------
-# 2. Remove subjects that are NaN
+# 2. Remove subjects with NaN
 # ------------------------------------ 
 participants_clean = participants.loc[~participants.isna().any(axis=1)]
 
@@ -117,13 +117,13 @@ fc_clean = fc_matrices[indices].copy()
 
 # save a new participant table 
 participants_clean.to_csv(
-    PROJECT_DIR / "data/participants_clean.csv",
+    DATA_DIR / "participants_clean.csv",
     index=False,
 )
 
 # save the new connectivity matrices 
 np.savez_compressed(
-    PROJECT_DIR / "data/connectivity_matrices_clean.npz",
+    DATA_DIR / "connectivity_matrices_clean.npz",
     matrices=fc_clean,
     subject_ids= participants_clean.subject_id,
     roi_names=np.array(roi_names),
