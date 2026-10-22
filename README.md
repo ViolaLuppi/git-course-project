@@ -28,6 +28,7 @@ You can run the code from the console using:
 - `exec(open("path to your code").read())` **from the second time**
 
 ### Python packages
+
 `matplotlib` - Used for creating plots.
 
 `networkx` - Used for building and visualizing functional connectivity networks.
@@ -38,7 +39,7 @@ You can run the code from the console using:
 
 `statsmodels` - Used for fitting OLS regression models and FDR correction.
 
-## Contents 
+## Contents
 
 This repository contains the following material:
 
@@ -65,7 +66,7 @@ Scripts produced for this project are contained in `codes` folder.
 
 ### `generate_data.py`
 
-The script is used to generate a database of 120 subject with **Impostor Syndrome**. The dataset contains: a **resting state functional connectivity (rs-FC)** matrix for each subject, few **demographics** (age, sex), **Impostor Feeling Syndrom Scores (IFSS)** and **Anxiety Scores (AS)**. The two clinical scales have no existing reference and should not be considered in any real clinical application. To simulate a realistic processing pipeline, the dataset has been corrupted with missing/incorrect data. Higher performance anxiety is associated with higher IFSS scores, to create an opportunity to discuss confounding. In addition, the connectivity matrix has been created to provide lower FC associated to higher IFSS scores.
+The script is used to generate a database of 120 subject with **Impostor Syndrome**. The dataset contains: a **resting state functional connectivity (rs-FC)** matrix for each subject, few **demographics** (age, sex), **Impostor Factor and Self-Doubt Scores (IFSS)** and **Anxiety Scores (AS)**. The two clinical scales have no existing reference and should not be considered in any real clinical application. To simulate a realistic processing pipeline, the dataset has been corrupted with missing/incorrect data. Higher performance anxiety is associated with higher IFSS scores, to create an opportunity to discuss confounding. In addition, the connectivity matrix has been created to provide lower FC associated to higher IFSS scores.
 
 ### `render_data_quality_report.py`
 
@@ -95,6 +96,6 @@ This script takes `participants_clean.csv` and `connectivity_matrices_clean.npz`
 
 This script takes `connectivity_matrices_clean.npz` as input and visualizes the FC network for a selected participant as a circular graph. Positive connections are drawn in red and negative ones in blue, with edge thickness scaled by connection strength. The output is a figure in .png format that is saved to results/.
 
-## Study reproducibility 
+## Study reproducibility
 
 The synthetic database and the codes have been generated with the intent of making this project an open-access and reproducible example pipeline for anyone interested in neuroimaging and statistical analysis. The random seed is kept fixed to ensure the same synthetic dataset is generated on every run.
