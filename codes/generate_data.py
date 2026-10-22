@@ -1,8 +1,7 @@
-# This code is used to produce the synthetic data that is going to be used 
-# in the project for the course: 'Open Science in Practice: Collaborative Research in Git'. 
+# This code is used to produce the synthetic data  used for the project. 
 # This code generates: N functional connectivity matrix (FC) for N subjects, demographics, clinical scales. 
 # All data generated in this code is fictitious. 
-# The clinical scales used for the sole objective of generatig covairates
+# The clinical scales used for the sole objective of generatig covariates
 # to simulate a clinical study and should not be used for clinical purposes. 
 
 # The code contains the following sections: 
@@ -13,7 +12,10 @@
     # 5. Generate one FC matrix for each participant 
     # 6. Save the sythetic database
 
-# 1. Settings: install all the required packages and generate the folder 
+#---------------
+#  1. Settings
+#---------------
+# Install all the required packages and generate the folder 
 # where you are going to keep your raw data. 
 
 from pathlib import Path
@@ -32,7 +34,10 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True) #creates the directory only if no 
 
 rng = np.random.default_rng(SEED) #always generate the same sequence of pseudo-random numbers 
 
+#--------------------
 # 2. Define the ROIs
+#--------------------
+
 # These are chosen randomly but are existing ROIs. 
 
 roi_names = [
@@ -46,7 +51,10 @@ roi_names = [
     "R_dlPFC",
 ]
 
+#--------------------------------------
 # 3. Generate participants information
+#--------------------------------------
+
 # Include IDs, age, sex, Impostor Feeling Syndrome Score (IFSS) and Anxiety Score (AS).  
 
 # The IDs will look like 001, 002, 003 since we have more than 99 subjects. 
@@ -106,7 +114,10 @@ participants = pd.DataFrame({
     "mean_fd": mean_fd, 
 })
 
+#--------------------------------------
 # 4. Define the connectivity structure
+#--------------------------------------
+
 # In this part of the code we define the connectivity matrix. 
 # The idea behind it is that we are going to generate stronger correlations between the ROIs that belong to specific networks:
 #  - Default Mode Network (DMN)
@@ -136,8 +147,9 @@ base_corr[7, 6] = 0.25
 # The matrix has 1 on its diagonal (each ROI has the highest correlation with itself)
 np.fill_diagonal(base_corr, 1.0)
 
-
+#-------------------------------------------
 # 5. Generate one FC matrix per participant
+#-------------------------------------------
 
 fc_matrices = []
 
@@ -169,13 +181,17 @@ for score in ifss:
 
 fc_matrices = np.array(fc_matrices)
 
+#-----------------------------------------------------------------------
 # 6. Introduce some random noise for data cleaning practice (optional)
+#-----------------------------------------------------------------------
 
 #NaN in age and head motion
 participants.loc[5, "age"] = np.nan
 participants.loc[40, "mean_fd"] = np.nan
 
+#--------------------------------
 # 7. Save the synthetic database
+#--------------------------------
 
 participants.to_csv(
     OUTPUT_DIR / "participants.csv",
