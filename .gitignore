@@ -1,9 +1,9 @@
 .DS_Store
 # Do not commit figures
-*.png 
+*.png
 
 # Do not commit the folder output
-output 
+output
 
 
 # Byte-compiled / optimized / DLL files
@@ -226,3 +226,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+/.quarto/
+**/*.quarto_ipynb
