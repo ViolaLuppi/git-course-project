@@ -8,9 +8,11 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
 # pyrefly: ignore[missing-import]
 import statsmodels.formula.api as smf
 from IPython.display import display
+
 # pyrefly: ignore[missing-import]
 from statsmodels.stats.multitest import multipletests
 
