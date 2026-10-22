@@ -1,4 +1,4 @@
-# ng.git-course-project
+# git-course-project
 
 This repository contains the project *"Impostor Syndrome study"* produced for the course "Open Science in Practice: Collaborative Research in Git" held in October 2026 at Karolinska Institutet.
 
@@ -35,7 +35,11 @@ You can run the code from the console using:
 
 `matplotlib` - Used for creating plots.
 
-`seaborn` - Used for visualization. \## Contents This repository contains the following material:
+`seaborn` - Used for visualization.
+
+## Contents 
+
+This repository contains the following material:
 
 1.  `data` contains the simulated data.
 2.  `codes` contains all the scripts used for this project.
