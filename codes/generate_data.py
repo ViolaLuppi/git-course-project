@@ -121,7 +121,7 @@ participants = pd.DataFrame({
 # In this part of the code we define the connectivity matrix. 
 # The idea behind it is that we are going to generate stronger correlations between the ROIs that belong to specific networks:
 #  - Default Mode Network (DMN)
-#  - Saliene Network (SN)
+#  - Salience Network (SN)
 #  - Executive Control Network (ECN)
 
 # generate the 8 x 8 matrix 
