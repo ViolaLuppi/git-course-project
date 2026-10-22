@@ -103,7 +103,9 @@ plt.show()
 ```
 
 ## 3. FC distribution
-Below the distribution of functional connectivity across subjects is reported. 
+
+Below the distribution of functional connectivity across subjects is reported.
+
 ```{python}
 
 # Extract unique connections, excluding the diagonal
@@ -119,5 +121,3 @@ plt.title("Distribution of Functional Connectivity")
 plt.tight_layout()
 plt.show()
 ```
-
-
