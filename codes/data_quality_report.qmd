@@ -4,7 +4,6 @@ date: today
 format: 
     html:
         output-file: data_quality_report.html
-        output-dir: ../output
 echo: false 
 ---
 
@@ -13,13 +12,13 @@ echo: false
 
 #import all the necessary packages 
 
-from IPython.display import display
-from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
+from IPython.display import display
+from pathlib import Path
 
 # load your data 
 
@@ -44,7 +43,7 @@ roi_names = [
 
 # Project Qulity Report
 
-This is a report of the data quality in the project for the course 'Open Science in Practice: Collaborative Research in Git' held in October 2026 at Karolinska Institutet.
+This is a report of the data quality for the project "*Impostor Syndrome study"* for the course "Open Science in Practice: Collaborative Research in Git" held in October 2026 at Karolinska Institutet.
 
 ## Data description
 
@@ -140,9 +139,9 @@ print("Maximum FC:", np.nanmax(fc_matrices))
 
 ```
 
-To isolate the significant connections, we explore how many connections remain when we consider different connectivty thresholds.
+To isolate the significant connections, we explore how many connections remain when we consider different connectivity thresholds.
 
-``` {python}
+```{python}
 
 # Define some thresholds to see 
 thresholds = np.arange(0.05, 0.45, 0.05)
@@ -187,7 +186,7 @@ for threshold, n_conn, density in zip(
     )
 ```
 
-For example, if we decide to use the 0.05 threshold, we only keep the connections that are stronger than 0.05. This means that, on aveage, we will retain around 70% of the unique connections in the network. 
+For example, if we decide to use the 0.05 threshold, we only keep the connections that are stronger than 0.05. This means that, on average, we will retain around 70% of the unique connections in the network.
 
 ## Summary
 
@@ -202,4 +201,4 @@ On the other hand, for the **FC matrix**:
 1.  Matrix shape corresponds to the expected matrix shape (120 subjects and 8 ROIs considered).
 2.  No NaN or infinite values are detected.
 3.  Values are between -1 and +1.
-4. The best connectivity threshold is 0.05. 
+4.  We choose the 0.05 connectivity threshold for our following analysis.
