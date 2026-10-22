@@ -10,7 +10,7 @@ The files in this repository were created to:
 
 - Perform statistical analysis on the generated datasets.
 
-- Document the process in the detail through reports.
+- Document the process in detail through reports.
 
 ## Resources
 
@@ -28,14 +28,15 @@ You can run the code from the console using:
 - `exec(open("path to your code").read())` **from the second time**
 
 ### Python packages
+`matplotlib` - Used for creating plots.
+
+`networkx` - Used for building and visualizing functional connectivity networks.
 
 `pandas` - Used for dataframes.
 
 `numpy` - Used for working with arrays.
 
-`matplotlib` - Used for creating plots.
-
-`seaborn` - Used for visualization.
+`statsmodels` - Used for fitting OLS regression models and FDR correction.
 
 ## Contents 
 
@@ -45,7 +46,7 @@ This repository contains the following material:
 2.  `codes` contains all the scripts used for this project.
 3.  `README.md`
 4.  `CONTRIBUTORS.md` contains the list of the contirbutors to the project.
-5.  `_quarto.yml` is a file for setting up the output directory for the reports. Keep it in the working directory to ensure that the html reports are saved in the correct folder.
+5.  `_quarto.yml` for setting up the output directory for the reports. Keep it in the working directory to ensure that the html reports are saved in the correct folder.
 
 ## Workflow
 
@@ -60,7 +61,7 @@ To execute the entire pipeline, run the scripts in the following order:
 
 ## `codes` folder
 
-Scripts included in this project are contained in `codes` folder.
+Scripts produced for this project are contained in `codes` folder.
 
 ### `generate_data.py`
 
@@ -68,7 +69,7 @@ The script is used to generate a database of 120 subject with **Impostor Syndrom
 
 ### `render_data_quality_report.py`
 
-This script renders the `data_quality_report.qmd` that generates a `data_quality_report.html` in the \output folder inside the project directory. It takes as input the `participants.csv`and `connectivity_matrices.npz`. It contains a descriptive table of the participants and exploratory analysis to identify missing or corrupted data. It also provides exploratory analysis of FC matrix to identify a connectivty threshold to isolate significant connections. It detects NaN values in two variables (Age and mean_fd) and mistakes in the IFSS reported for three subjects.
+This script renders the `data_quality_report.qmd` that generates a `data_quality_report.html` in the \output folder inside the project directory. It takes as input the `participants.csv`and `connectivity_matrices.npz`. It contains a descriptive table of the participants and exploratory analysis to identify missing or corrupted data. It also provides exploratory analysis of FC matrix to identify a connectivty threshold to isolate significant connections. It detects NaN values in two variables (Age and mean_fd) and mistakes in the IFSS are reported for three subjects.
 
 ### `clean_data.py`
 
@@ -92,7 +93,7 @@ This script takes `participants_clean.csv` and `connectivity_matrices_clean.npz`
 
 ### `generate_figure.py`
 
-This script takes `connectivity_matrices_clean.npz` and visualizes the FC network for a selected participant as a circular graph. Positive connections are drawn in red and negative ones in blue, with edge thickness scaled by connection strength. The output is a figure in .png format that is saved to results/.
+This script takes `connectivity_matrices_clean.npz` as input and visualizes the FC network for a selected participant as a circular graph. Positive connections are drawn in red and negative ones in blue, with edge thickness scaled by connection strength. The output is a figure in .png format that is saved to results/.
 
 ## Study reproducibility 
 
